@@ -4,7 +4,6 @@ class WallService {
     fun add(post: Post): Post {
         var newId = posts.size + 1
         posts += post.copy(id = newId)
-        println(posts.last().id)
         return posts.last()
     }
 
