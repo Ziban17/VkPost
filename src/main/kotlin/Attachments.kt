@@ -72,7 +72,7 @@ class StickerAttachment(override val type: String, val sticker: Sticker) : Attac
 data class Sticker(
     val productId: Int = 0,
     val stickerId: Int = 0,
-    val images: StickerImages?,
+    val images: StickerImages? = null,
     val imagesWithBackground: StickerImagesWithBackground?
 )
 
@@ -107,8 +107,8 @@ data class Pool(
     val canReport: Boolean = false,
     val canShare: Boolean = false,
     val authorId: Int = 0,
-    val photo: Photo?,
-    val background: PoolBackground?
+    val photo: Photo? = null,
+    val background: PoolBackground? = null
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

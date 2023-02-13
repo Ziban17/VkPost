@@ -91,13 +91,94 @@ data class Post(
 }
 
 data class Comment(
-    val count: Int = 0,
-    val canPost: Boolean = true,
-    val groupsCanPost: Boolean = true,
-    val canClose: Boolean = true,
-    val canOpen: Boolean = true,
+    val id: Int = 0,
+    val fromId: Int = 0,
+    val date: Int = 0,
+    val text: String = "",
+    val donut: CommentDonut? = null,
+    val replyToUser: Int = 0,
+    val replyToComment: Int = 0,
+    val attachments: Attachments? = null,
+    val parentsStack: Array<Comment>? = null,
+    val thread: CommentThread? = null
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
 
-    )
+        other as Comment
+
+        if (id != other.id) return false
+        if (fromId != other.fromId) return false
+        if (date != other.date) return false
+        if (text != other.text) return false
+        if (donut != other.donut) return false
+        if (replyToUser != other.replyToUser) return false
+        if (replyToComment != other.replyToComment) return false
+        if (attachments != other.attachments) return false
+        if (parentsStack != null) {
+            if (other.parentsStack == null) return false
+            if (!parentsStack.contentEquals(other.parentsStack)) return false
+        } else if (other.parentsStack != null) return false
+        if (thread != other.thread) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = id
+        result = 31 * result + fromId
+        result = 31 * result + date
+        result = 31 * result + text.hashCode()
+        result = 31 * result + (donut?.hashCode() ?: 0)
+        result = 31 * result + replyToUser
+        result = 31 * result + replyToComment
+        result = 31 * result + (attachments?.hashCode() ?: 0)
+        result = 31 * result + (parentsStack?.contentHashCode() ?: 0)
+        result = 31 * result + (thread?.hashCode() ?: 0)
+        return result
+    }
+}
+
+data class CommentDonut(
+    val isDon: Boolean = false,
+    val placeholder: String
+)
+
+data class CommentThread(
+    val count: Int = 0,
+    val items: Array<Comment>? = null,
+    val canPost: Boolean = false,
+    val isShowReplyButton: Boolean = false,
+    val isGroupsCanPost: Boolean = false
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as CommentThread
+
+        if (count != other.count) return false
+        if (items != null) {
+            if (other.items == null) return false
+            if (!items.contentEquals(other.items)) return false
+        } else if (other.items != null) return false
+        if (canPost != other.canPost) return false
+        if (isShowReplyButton != other.isShowReplyButton) return false
+        if (isGroupsCanPost != other.isGroupsCanPost) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = count
+        result = 31 * result + (items?.contentHashCode() ?: 0)
+        result = 31 * result + canPost.hashCode()
+        result = 31 * result + isShowReplyButton.hashCode()
+        result = 31 * result + isGroupsCanPost.hashCode()
+        return result
+    }
+}
 
 data class Copyright(
     val id: Int = 0,
